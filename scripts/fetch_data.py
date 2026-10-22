@@ -73,8 +73,13 @@ def fetch_sporttery():
     """从竞彩网抓取当前在售比赛"""
     matches = []
     try:
-        url = "https://webapi.sporttery.cn/gateway/jc/football/getMatchCalculatorV1.qry"
-        req = Request(url, headers={"User-Agent": "Mozilla/5.0", "Referer": "https://www.lottery.gov.cn/"})
+        url = "https://webapi.sporttery.cn/gateway/jc/football/getMatchCalculatorV1.qry?channel=c_web&client_version=2.0"
+        req = Request(url, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+            "Referer": "https://www.sporttery.cn/",
+            "Origin": "https://www.sporttery.cn",
+            "Accept": "application/json, text/plain, */*",
+        })
         with urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read())
         mid = 0
