@@ -221,6 +221,14 @@ def refresh_matches():
     """轻量刷新：实时比分 + 在售赔率，只写 matches.json（供常驻服务高频调用）"""
     live_map = fetch_live()
     matches = fetch_sporttery(live_map)
+    # 防护：云端（如 GitHub Actions 海外 IP）被竞彩风控会返回空，
+    # 此时绝不能用空数据覆盖已有文件，否则线上会被刷成“暂无赛事”。
+    if not matches and os.path.exists(MATCHES_FILE):
+        old = load_json(MATCHES_FILE, {"matches": []})
+        old_matches = old.get("matches", [])
+        if old_matches:
+            print(f"[warn] 本次未抓到任何比赛（可能被接口风控/区域限制），保留原有 {len(old_matches)} 场数据，不覆盖")
+            return old_matches
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     save_json(MATCHES_FILE, {"matches": matches, "updated": updated, "sources": ["中国竞彩网"]})
     n_live = sum(1 for m in matches if m.get("status") == "live")
