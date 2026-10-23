@@ -30,4 +30,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --cached --quiet || git commit -m "chore: refresh live data $(date +%Y-%m-%d_%H:%M)"
-          git push
+          # 与并发的全量任务可能冲突，rebase 后重试
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "push conflict, retry $i in 5s"; sleep 5
+          done
