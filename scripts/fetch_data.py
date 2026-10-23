@@ -69,26 +69,82 @@ def fetch_okooo_results():
         print(f"澳客网错误: {e}")
     return results
 
-def fetch_sporttery():
-    """从竞彩网抓取当前在售比赛"""
+SPORTTERY_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+
+# 比分直播 matchStatus -> 统一状态
+LIVE_STATUS_MAP = {"4": "upcoming", "5": "live", "6": "finished"}
+
+def _jc_request(url, referer="https://www.sporttery.cn/"):
+    req = Request(url, headers={
+        "User-Agent": SPORTTERY_UA,
+        "Referer": referer,
+        "Origin": "https://www.sporttery.cn",
+        "Accept": "application/json, text/plain, */*",
+    })
+    with urlopen(req, timeout=15) as resp:
+        return json.loads(resp.read())
+
+def parse_score(s):
+    """'1:0' -> (1,0)；空/异常 -> (None,None)"""
+    if s and ":" in str(s):
+        try:
+            h, a = str(s).split(":")[:2]
+            return int(h), int(a)
+        except (ValueError, TypeError):
+            return None, None
+    return None, None
+
+def fetch_live():
+    """抓取竞彩比分直播（含未开赛/进行中/已完赛 + 实时比分），返回 {matchId: info}"""
+    live_map = {}
+    try:
+        url = "https://webapi.sporttery.cn/gateway/uniform/fb/getMatchLiveV1.qry?matchIds=&eventTc=goals,penalty_shootout&method=live"
+        data = _jc_request(url, referer="https://www.sporttery.cn/jc/zqbfzb/")
+        for m in data.get("value", []) or []:
+            try:
+                mid_val = m.get("matchId")
+                if mid_val is None:
+                    continue
+                ft = parse_score(m.get("sectionsNo999"))  # 全场比分
+                ht = parse_score(m.get("sectionsNo1"))    # 半场比分
+                mt = str(m.get("matchTime", "") or "")
+                live_map[mid_val] = {
+                    "status": LIVE_STATUS_MAP.get(str(m.get("matchStatus")), "upcoming"),
+                    "minute": int(m.get("matchMinute") or 0),
+                    "phase": m.get("matchPhaseTcName", "") or "",
+                    "homeScore": ft[0], "awayScore": ft[1],
+                    "htHomeScore": ht[0], "htAwayScore": ht[1],
+                    "leagueAbbName": m.get("leagueAbbName", "") or "",
+                    "homeTeamAbbName": m.get("homeTeamAbbName", "") or "",
+                    "awayTeamAbbName": m.get("awayTeamAbbName", "") or "",
+                    "matchDate": m.get("matchDate", "") or "",
+                    "matchTime": mt[:5],
+                    "matchNumStr": m.get("matchNumStr", "") or "",
+                }
+            except Exception as e:
+                print(f"live单场解析错误: {e}")
+    except Exception as e:
+        print(f"比分直播API错误: {e}")
+    return live_map
+
+def fetch_sporttery(live_map=None):
+    """从竞彩网抓取在售比赛（赔率），并合并比分直播的实时状态/比分；
+    同时追加已从计算器下架但仍在直播列表中的进行中/已完赛比赛。"""
+    live_map = live_map or {}
     matches = []
+    seen_match_ids = set()
+    mid = 0
     try:
         url = "https://webapi.sporttery.cn/gateway/jc/football/getMatchCalculatorV1.qry?channel=c_web&client_version=2.0"
-        req = Request(url, headers={
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
-            "Referer": "https://www.sporttery.cn/",
-            "Origin": "https://www.sporttery.cn",
-            "Accept": "application/json, text/plain, */*",
-        })
-        with urlopen(req, timeout=15) as resp:
-            data = json.loads(resp.read())
-        mid = 0
+        data = _jc_request(url)
         for day in data.get("value", {}).get("matchInfoList", []):
             for m in day.get("subMatchList", []):
                 had = m.get("had", {})
                 h = float(had.get("h", "0") or "0")
                 if h <= 0: continue
                 mid += 1
+                match_id = m.get("matchId")
+                seen_match_ids.add(match_id)
                 crs = {}
                 for k, v in m.get("crs", {}).items():
                     if k.startswith("s") and len(k) == 6 and "f" not in k:
@@ -104,8 +160,11 @@ def fetch_sporttery():
                 home_name = m.get("homeTeamAbbName", "")
                 away_name = m.get("awayTeamAbbName", "")
                 match_date = m.get("matchDate", "")
+                lv = live_map.get(match_id, {})
                 matches.append({
                     "id": mid,
+                    "matchId": match_id,
+                    "matchNo": m.get("matchNumStr", "") or "",
                     "league": m.get("leagueAbbName", "") or m.get("groupName", "竞彩"),
                     "time": f"{match_date} {m.get('matchTime', '')}",
                     "date": match_date,
@@ -114,10 +173,60 @@ def fetch_sporttery():
                     "odds": {"home": h, "draw": float(had.get("d", "0") or "0"), "away": float(had.get("a", "0") or "0")},
                     "handicap": hc,
                     "crs": crs,
-                    "htft": ht
+                    "htft": ht,
+                    "hasOdds": True,
+                    "status": lv.get("status", "upcoming"),
+                    "minute": lv.get("minute", 0),
+                    "phase": lv.get("phase", ""),
+                    "homeScore": lv.get("homeScore"),
+                    "awayScore": lv.get("awayScore"),
+                    "htHomeScore": lv.get("htHomeScore"),
+                    "htAwayScore": lv.get("htAwayScore"),
                 })
     except Exception as e:
         print(f"竞彩API错误: {e}（将使用pending中的预测）")
+
+    # 追加直播列表中独有的比赛（已完赛/进行中，计算器已下架，无赔率）
+    for lmid, lv in live_map.items():
+        if lmid in seen_match_ids:
+            continue
+        if lv.get("status") not in ("live", "finished"):
+            continue
+        mid += 1
+        matches.append({
+            "id": mid,
+            "matchId": lmid,
+            "matchNo": lv.get("matchNumStr", ""),
+            "league": lv.get("leagueAbbName", "") or "竞彩",
+            "time": f"{lv.get('matchDate','')} {lv.get('matchTime','')}".strip(),
+            "date": lv.get("matchDate", ""),
+            "home": {"name": lv.get("homeTeamAbbName", ""), "rank": ""},
+            "away": {"name": lv.get("awayTeamAbbName", ""), "rank": ""},
+            "odds": {"home": 0, "draw": 0, "away": 0},
+            "handicap": {"line": "", "home": 0, "away": 0, "draw": 0},
+            "crs": {},
+            "htft": {},
+            "hasOdds": False,
+            "status": lv.get("status"),
+            "minute": lv.get("minute", 0),
+            "phase": lv.get("phase", ""),
+            "homeScore": lv.get("homeScore"),
+            "awayScore": lv.get("awayScore"),
+            "htHomeScore": lv.get("htHomeScore"),
+            "htAwayScore": lv.get("htAwayScore"),
+        })
+    return matches
+
+def refresh_matches():
+    """轻量刷新：实时比分 + 在售赔率，只写 matches.json（供常驻服务高频调用）"""
+    live_map = fetch_live()
+    matches = fetch_sporttery(live_map)
+    updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    save_json(MATCHES_FILE, {"matches": matches, "updated": updated, "sources": ["中国竞彩网"]})
+    n_live = sum(1 for m in matches if m.get("status") == "live")
+    n_fin = sum(1 for m in matches if m.get("status") == "finished")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] 刷新完成: 共{len(matches)}场 "
+          f"(未开赛{len(matches)-n_live-n_fin}/进行中{n_live}/已完场{n_fin})")
     return matches
 
 def make_prediction(m):
@@ -237,10 +346,13 @@ def main():
     })
     pending = load_json(PENDING_FILE, {})  # {key: prediction}
 
-    # 抓取数据
+    # 抓取数据（实时比分 + 在售赔率）
     results = fetch_okooo_results()
-    matches = fetch_sporttery()
-    print(f"赛果: {len(results)}场, 在售: {len(matches)}场")
+    live_map = fetch_live()
+    matches = fetch_sporttery(live_map)
+    n_live = sum(1 for m in matches if m.get("status") == "live")
+    n_fin = sum(1 for m in matches if m.get("status") == "finished")
+    print(f"赛果: {len(results)}场, 比赛: {len(matches)}场 (进行中{n_live}/已完场{n_fin})")
 
     # 生成当前在售比赛的预测
     current_preds = []
@@ -350,4 +462,10 @@ def main():
     print(f"完成! 新增复盘:{new_count}场, 历史:{all_count}场(有预测{total}场), 命中率:{rate}%, 待匹配:{len(pending)}场")
 
 if __name__ == "__main__":
-    main()
+    import sys
+    # --refresh：轻量模式，仅更新实时比分/赔率/状态（matches.json），供常驻服务与高频 Actions 调用
+    # 无参数：全量模式，额外抓取赛果、生成预测、更新复盘（history.json）
+    if "--refresh" in sys.argv:
+        refresh_matches()
+    else:
+        main()

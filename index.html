@@ -181,6 +181,28 @@ body{font-family:'Inter','PingFang SC','Source Han Sans','Microsoft YaHei',sans-
 .countdown.live{color:var(--danger)}
 .countdown.live .countdown-icon{animation:pulse 1s ease infinite}
 
+/* ===== Live / Finished score cards ===== */
+.card.is-live{border-color:rgba(239,68,68,.45);box-shadow:0 4px 24px rgba(239,68,68,.15)}
+.card.is-finished{opacity:.92}
+.live-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ef4444,#dc2626);padding:3px 9px;border-radius:20px;white-space:nowrap;animation:livePulse 1.4s ease infinite}
+.live-badge .lb-dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1s ease infinite}
+.finished-badge{display:inline-flex;align-items:center;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,#64748b,#475569);padding:3px 9px;border-radius:20px;white-space:nowrap}
+.live-score-tag{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;padding:2px 10px;border-radius:8px;white-space:nowrap;color:#fff}
+.live-score-tag.lv{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.live-score-tag.fn{background:linear-gradient(135deg,#64748b,#475569)}
+.live-score-center{text-align:center;flex:0 0 auto;padding:0 16px}
+.live-score-big{font-size:38px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:1px}
+.live-score-big.lv{color:#ef4444}
+.live-score-big.fn{color:#8b5cf6}
+.live-ht{font-size:11px;color:var(--text-muted);margin-top:6px}
+.live-status-line{font-size:12px;font-weight:700;margin-top:8px}
+.live-status-line.lv{color:#ef4444}
+.live-status-line.fn{color:#64748b}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
+.live-refresh{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted);font-weight:500;margin-left:10px}
+.live-refresh .spin{display:inline-block;animation:spin 2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 /* ===== History ===== */
 .history{margin:0 0 16px}
 .history-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--card-bg);border:1px solid rgba(59,130,246,0.08);border-radius:12px;cursor:pointer;color:var(--text);transition:all .25s ease;box-shadow:0 4px 20px rgba(59,130,246,0.08)}
@@ -557,10 +579,10 @@ body.light-mode .filter-sidebar{background:#FFFFFF}
     </div>
     <div class="filter-section">
       <div class="filter-section-title">📊 比赛状态</div>
-      <label class="filter-radio"><input type="radio" name="filterStatus" value="all" checked onchange="applyFilters()"> 全部</label>
-      <label class="filter-radio"><input type="radio" name="filterStatus" value="upcoming" onchange="applyFilters()"> 未开赛</label>
-      <label class="filter-radio"><input type="radio" name="filterStatus" value="live" onchange="applyFilters()"> 进行中</label>
-      <label class="filter-radio"><input type="radio" name="filterStatus" value="finished" onchange="applyFilters()"> 已完场</label>
+      <label class="filter-radio"><input type="radio" name="filterStatus" value="all" checked onchange="setStatusFilter('all')"> 全部</label>
+      <label class="filter-radio"><input type="radio" name="filterStatus" value="upcoming" onchange="setStatusFilter('upcoming')"> 未开赛</label>
+      <label class="filter-radio"><input type="radio" name="filterStatus" value="live" onchange="setStatusFilter('live')"> 进行中</label>
+      <label class="filter-radio"><input type="radio" name="filterStatus" value="finished" onchange="setStatusFilter('finished')"> 已完场</label>
     </div>
     <div class="filter-section">
       <div class="filter-section-title">⭐ 置信度</div>
@@ -594,10 +616,10 @@ body.light-mode .filter-sidebar{background:#FFFFFF}
     </div>
     <div class="filter-section">
       <div class="filter-section-title">📊 比赛状态</div>
-      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="all" checked onchange="applyFilters()"> 全部</label>
-      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="upcoming" onchange="applyFilters()"> 未开赛</label>
-      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="live" onchange="applyFilters()"> 进行中</label>
-      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="finished" onchange="applyFilters()"> 已完场</label>
+      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="all" checked onchange="setStatusFilter('all')"> 全部</label>
+      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="upcoming" onchange="setStatusFilter('upcoming')"> 未开赛</label>
+      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="live" onchange="setStatusFilter('live')"> 进行中</label>
+      <label class="filter-radio"><input type="radio" name="filterStatusMobile" value="finished" onchange="setStatusFilter('finished')"> 已完场</label>
     </div>
     <div class="filter-section">
       <div class="filter-section-title">⭐ 置信度</div>
@@ -615,14 +637,17 @@ body.light-mode .filter-sidebar{background:#FFFFFF}
 
   <!-- Stats -->
   <div class="stats" id="stats">
-    <div class="stat"><div class="num">-</div><div class="label">赛事</div></div>
+    <div class="stat"><div class="num">-</div><div class="label">未开赛</div></div>
+    <div class="stat"><div class="num">-</div><div class="label">进行中</div></div>
+    <div class="stat"><div class="num">-</div><div class="label">已完场</div></div>
     <div class="stat"><div class="num">-</div><div class="label">平均进球</div></div>
-    <div class="stat"><div class="num">-</div><div class="label">更新</div></div>
   </div>
 
   <!-- Action Row -->
   <div class="action-row">
     <span class="time" id="updateTime">-</span>
+    <span class="live-refresh" id="liveRefreshTip"><span class="spin">⟳</span>实时刷新中</span>
+    <button class="sim-trigger" onclick="manualRefresh()" style="font-size:12px">🔄 刷新</button>
     <button class="sim-trigger" onclick="openSim()">🎮 模拟选号</button>
   </div>
 
@@ -1254,6 +1279,46 @@ function loadMatches() {
   load();
 }
 
+function renderStats(){
+  const nLive=M.filter(m=>m.status==='live').length;
+  const nUp=M.filter(m=>m.status==='upcoming').length;
+  const nFin=M.filter(m=>m.status==='finished').length;
+  const betM=M.filter(m=>m.hasOdds);
+  const avg=betM.length?(betM.reduce((s,m)=>{try{return s+ana(m).hL+ana(m).aL}catch(e){return s}},0)/betM.length).toFixed(1):'-';
+  document.getElementById('stats').innerHTML='<div class="stat"><div class="num">'+nUp+'</div><div class="label">未开赛</div></div><div class="stat"><div class="num" style="color:var(--danger)">'+nLive+'</div><div class="label">进行中</div></div><div class="stat"><div class="num">'+nFin+'</div><div class="label">已完场</div></div><div class="stat"><div class="num">'+avg+'</div><div class="label">平均进球</div></div>';
+}
+
+// ===== 实时刷新（静默重载比赛数据，不重置筛选/联赛/收藏）=====
+var _refreshing=false;
+function _nowHHMMSS(){
+  var n=new Date();
+  function p(x){return String(x).padStart(2,'0');}
+  return p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
+}
+async function refreshLiveData(){
+  if(_refreshing)return;
+  _refreshing=true;
+  try{
+    const r=await fetch('data/matches.json?t='+Date.now());
+    const d=await r.json();
+    M=d.matches||[];
+    var ut=document.getElementById('updateTime');
+    if(ut)ut.textContent=d.updated||'-';
+    renderStats();
+    renderTabs();
+    renderMatches();
+    try{renderKeyMatches();}catch(e){}
+    var tip=document.getElementById('liveRefreshTip');
+    if(tip)tip.innerHTML='<span class="spin">⟳</span>'+_nowHHMMSS()+' 已更新';
+  }catch(e){console.log('实时刷新失败:',e.message);}
+  _refreshing=false;
+}
+function manualRefresh(){
+  var tip=document.getElementById('liveRefreshTip');
+  if(tip)tip.innerHTML='<span class="spin">⟳</span>正在刷新…';
+  refreshLiveData();
+}
+
 async function load(){
   
   try{
@@ -1268,10 +1333,7 @@ async function load(){
     H=await h.json();
   }catch(e){console.log('history加载失败:',e.message);H=null;}
   
-  try{
-    const avg=M.length?(M.reduce((s,m)=>{try{return s+ana(m).hL+ana(m).aL}catch(e){return s}},0)/M.length).toFixed(1):'-';
-    document.getElementById('stats').innerHTML='<div class="stat"><div class="num">'+M.length+'</div><div class="label">赛事</div></div><div class="stat"><div class="num">'+avg+'</div><div class="label">平均进球</div></div><div class="stat"><div class="num">'+(M.length?'在线':'-')+'</div><div class="label">状态</div></div>';
-  }catch(e){console.log('stats渲染失败:',e.message);}
+  try{renderStats();}catch(e){console.log('stats渲染失败:',e.message);}
   
   try{renderTabs();}catch(e){console.log('tabs失败:',e.message);}
   try{renderMatches();}catch(e){console.log('matches失败:',e.message);}
@@ -1293,7 +1355,40 @@ function renderMatches(){
   document.getElementById('matches').innerHTML=ms.map(card).join('');
 }
 
+function scoreCard(m){
+  const idx=M.indexOf(m);
+  const isLive=m.status==='live';
+  const sc=isLive?'lv':'fn';
+  const dash=v=>(v===null||v===undefined)?'-':v;
+  const hs=dash(m.homeScore),as=dash(m.awayScore),hth=dash(m.htHomeScore),hta=dash(m.htAwayScore);
+  const badge=isLive
+    ?`<span class="live-badge"><span class="lb-dot"></span>直播中 ${m.minute?m.minute+"'":''}</span>`
+    :`<span class="finished-badge">完场</span>`;
+  return`
+  <div class="card ${isLive?'is-live':'is-finished'}" data-league="${m.league}" data-mid="${m.matchId||''}" style="animation-delay:${idx*0.06}s">
+    <div class="card-summary" onclick="toggleCard(${idx})">
+      <span class="card-league">${m.matchNo?m.matchNo+' ':''}${m.league}</span>
+      <span class="card-teams">${m.home.name} vs ${m.away.name}</span>
+      <span class="live-score-tag ${sc}">${hs} : ${as}</span>
+      ${badge}
+      <span class="card-toggle" id="toggle-${idx}">▼</span>
+    </div>
+    <div class="card-body" id="body-${idx}">
+      <div class="teams">
+        <div class="team"><div class="team-logo">⚽</div><div class="team-name">${m.home.name}</div></div>
+        <div class="live-score-center">
+          <div class="live-score-big ${sc}">${hs} : ${as}</div>
+          <div class="live-ht">半场 ${hth} : ${hta}</div>
+          <div class="live-status-line ${sc}">${isLive?('🔴 直播进行中 '+(m.minute?m.minute+"'":'')+(m.phase?' · '+m.phase:'')):'比赛已结束'}</div>
+        </div>
+        <div class="team"><div class="team-logo">⚽</div><div class="team-name">${m.away.name}</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function card(m){
+  if(m.status==='live'||m.status==='finished'){return scoreCard(m);}
   const a=ana(m);
   const hp=Math.round(a.h*100),dp=Math.round(a.d*100),ap=Math.round(a.a*100);
   const mx=Math.max(a.h,a.d,a.a);
@@ -1308,7 +1403,7 @@ function card(m){
   const bestOdds=Math.max(m.odds.home,m.odds.draw,m.odds.away);
   const idx=M.indexOf(m);
   return`
-  <div class="card" data-league="${m.league}" style="animation-delay:${idx*0.06}s">
+  <div class="card" data-league="${m.league}" data-mid="${m.matchId||''}" style="animation-delay:${idx*0.06}s">
     <div class="card-summary" onclick="toggleCard(${idx})">
       <span class="card-league">${m.matchNo ? m.matchNo+' ' : ''}${m.league}</span>
       <span class="card-teams">${m.home.name} vs ${m.away.name}</span>
@@ -1475,15 +1570,17 @@ function renderHistory(){
 }
 
 // ===== 自动刷新 =====
-setInterval(()=>{load()},5*60*1000);
+// 比赛数据由 60 秒一次的 refreshLiveData 轻量刷新（见文末），历史复盘仅在打开页面时加载一次，无需全量重载
 
 // ===== 新增：倒计时每秒刷新 =====
 setInterval(()=>{
   document.querySelectorAll('.card').forEach(card=>{
     const cdEl=card.querySelector('.countdown');
     if(!cdEl)return;
+    const mid=card.dataset.mid;
     const league=card.dataset.league;
-    const m=M.find(x=>x.league===league);
+    let m=mid?M.find(x=>String(x.matchId)===String(mid)):null;
+    if(!m)m=M.find(x=>x.league===league);
     if(!m)return;
     const cd=getCountdown(m.time);
     const parent=cdEl.parentNode;
@@ -1687,17 +1784,22 @@ var PARLAY_TYPES = {
 };
 
 function _isInParlay(idx){
-  return parlayList.some(function(p){return p.idx===idx});
+  var m=M[idx];
+  if(!m)return false;
+  var mid=(m.matchId!=null)?m.matchId:idx;
+  return parlayList.some(function(p){return p.mid===mid;});
 }
 
 function addToParlay(matchIdx, pick, odds){
-  var existIdx = -1;
-  for(var i=0;i<parlayList.length;i++){if(parlayList[i].idx===matchIdx){existIdx=i;break;}}
+  var m=M[matchIdx];
+  if(!m)return;
+  var mid=(m.matchId!=null)?m.matchId:matchIdx;
+  var existIdx=-1;
+  for(var i=0;i<parlayList.length;i++){if(parlayList[i].mid===mid){existIdx=i;break;}}
   if(existIdx>=0){
     parlayList.splice(existIdx,1);
   } else {
-    var m = M[matchIdx];
-    parlayList.push({idx:matchIdx, pick:pick, odds:odds, homeName:m.home.name, awayName:m.away.name});
+    parlayList.push({mid:mid, pick:pick, odds:odds, homeName:m.home.name, awayName:m.away.name});
   }
   renderParlay();
   renderMatches();
@@ -1846,7 +1948,7 @@ function renderKeyMatches(){
   var el = document.getElementById('keyMatches');
   if(!el || !M.length) return;
   var now = new Date();
-  var upcoming = M.filter(function(m){return new Date(m.time)>now;}).sort(function(a,b){return new Date(a.time)-new Date(b.time);}).slice(0,5);
+  var upcoming = M.filter(function(m){return m.status==='upcoming'&&m.hasOdds;}).sort(function(a,b){return new Date(a.time)-new Date(b.time);}).slice(0,5);
   if(!upcoming.length){el.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:12px;padding:10px">暂无即将开始的比赛</div>';return;}
   var html = '';
   for(var i=0;i<upcoming.length;i++){
@@ -1882,14 +1984,22 @@ function toggleTheme(){
 // ===== Favorites =====
 var favorites={};
 try{favorites=JSON.parse(localStorage.getItem('football_favorites')||'{}');}catch(e){favorites={}}
+// 收藏以比赛 matchId 为键（避免实时刷新后数组顺序变化导致错位），无 matchId 时回退到索引
+function _favKey(idx){
+  var m=M[idx];
+  if(!m)return null;
+  return (m.matchId!=null)?('m'+m.matchId):('i'+idx);
+}
 function toggleFavorite(idx,e){
   if(e)e.stopPropagation();
-  if(favorites[idx]){delete favorites[idx];}
-  else{favorites[idx]=true;}
+  var key=_favKey(idx);
+  if(key==null)return;
+  if(favorites[key]){delete favorites[key];}
+  else{favorites[key]=true;}
   localStorage.setItem('football_favorites',JSON.stringify(favorites));
   renderMatches();
 }
-function isFavorite(idx){return!!favorites[idx];}
+function isFavorite(idx){var key=_favKey(idx);return key==null?false:!!favorites[key];}
 
 // ===== Filter State =====
 var filterState={
@@ -1973,14 +2083,28 @@ function updateFilterBadge(){
   }
 }
 
+// 状态筛选：明确以点击的选项为准，同时同步 PC / 移动端两组 radio
+function setStatusFilter(value){
+  filterState.status=value;
+  document.querySelectorAll('input[name="filterStatus"],input[name="filterStatusMobile"]').forEach(function(r){
+    r.checked=(r.value===value);
+  });
+  syncFilterCheckboxes();
+  renderMatches();
+}
+
 function applyFilters(){
   var favPc=document.getElementById('filterFav');
   var favMob=document.getElementById('filterFavMobile');
   filterState.favoritesOnly=(favPc&&favPc.checked)||(favMob&&favMob.checked);
   var statusRadio=document.querySelector('input[name="filterStatus"]:checked');
   var statusRadioMob=document.querySelector('input[name="filterStatusMobile"]:checked');
-  filterState.status=(statusRadio?statusRadio.value:'all');
-  if(statusRadioMob&&statusRadioMob.value!=='all')filterState.status=statusRadioMob.value;
+  var pcVal=statusRadio?statusRadio.value:'all';
+  var mobVal=statusRadioMob?statusRadioMob.value:'all';
+  // 两组本应同步；不一致说明刚点击其中一组，取与当前状态不同的新值
+  if(pcVal===mobVal){filterState.status=pcVal;}
+  else if(pcVal!==filterState.status){filterState.status=pcVal;}
+  else{filterState.status=mobVal;}
   syncFilterCheckboxes();
   renderMatches();
 }
@@ -2036,14 +2160,15 @@ renderMatches=function(){
   if(filterState.leagues.length>0){
     ms=ms.filter(function(m){return filterState.leagues.indexOf(m.league)>=0;});
   }
-  // Status filter
+  // Status filter（严格按实时状态字段）
   if(filterState.status==='upcoming'){
-    ms=ms.filter(function(m){return new Date(m.time)>now;});
+    ms=ms.filter(function(m){return m.status==='upcoming';});
   }else if(filterState.status==='live'){
-    ms=ms.filter(function(m){var t=new Date(m.time);return t<=now;});
-  }else{
-    ms=ms.filter(function(m){return new Date(m.time)>now;});
+    ms=ms.filter(function(m){return m.status==='live';});
+  }else if(filterState.status==='finished'){
+    ms=ms.filter(function(m){return m.status==='finished';});
   }
+  // 'all' 不做状态过滤
   // Confidence filter
   if(filterState.confidence>0){
     ms=ms.filter(function(m){
@@ -2059,7 +2184,12 @@ renderMatches=function(){
     var fa=isFavorite(M.indexOf(a))?1:0;
     var fb=isFavorite(M.indexOf(b))?1:0;
     if(fa!==fb)return fb-fa;
-    return new Date(a.time)-new Date(b.time);
+    var rank=function(m){return m.status==='live'?0:(m.status==='upcoming'?1:2);};
+    var ra=rank(a),rb=rank(b);
+    if(ra!==rb)return ra-rb;
+    var ta=new Date(a.time),tb=new Date(b.time);
+    if(a.status==='finished'&&b.status==='finished')return tb-ta; // 已完赛：最近的在前
+    return ta-tb;                                                  // 未开赛/进行中：早的在前
   });
 
   if(!ms.length){
@@ -2092,6 +2222,8 @@ load=async function(){
 
 // ===== 启动 =====
 load();
+// 每 60 秒自动静默刷新比赛数据（实时比分/状态/赔率）
+setInterval(refreshLiveData, 60000);
 </script>
 </body>
 </html>

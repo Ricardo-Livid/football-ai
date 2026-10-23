@@ -1,0 +1,33 @@
+name: Full Sync & Review
+on:
+  schedule:
+    - cron: '0 8,12,16,20 * * *'   # UTC 8/12/16/20 = 北京时间 16/20/00/04，全量更新赛果与复盘
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Full fetch (results, predictions, review)
+        run: |
+          mkdir -p data
+          python3 scripts/fetch_data.py
+          echo "Full sync completed"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "chore: full sync & review $(date +%Y-%m-%d_%H:%M)"
+          git push

@@ -2,72 +2,8 @@
   "matches": [
     {
       "id": 1,
-      "league": "解放者杯",
-      "time": "2026-10-23 08:30:00",
-      "date": "2026-10-23",
-      "home": {
-        "name": "弗拉门戈",
-        "rank": "解放者杯1"
-      },
-      "away": {
-        "name": "拉普大学",
-        "rank": "解放者杯2"
-      },
-      "odds": {
-        "home": 1.15,
-        "draw": 5.4,
-        "away": 13.5
-      },
-      "handicap": {
-        "line": "-1",
-        "home": 1.8,
-        "away": 4.08,
-        "draw": 3.05
-      },
-      "crs": {
-        "s00s00": 12.0,
-        "s00s01": 28.0,
-        "s00s02": 70.0,
-        "s00s03": 250.0,
-        "s00s04": 650.0,
-        "s00s05": 1000.0,
-        "s01s00": 5.1,
-        "s01s01": 9.75,
-        "s01s02": 40.0,
-        "s01s03": 95.0,
-        "s01s04": 450.0,
-        "s01s05": 1000.0,
-        "s02s00": 4.5,
-        "s02s01": 7.25,
-        "s02s02": 28.0,
-        "s02s03": 95.0,
-        "s02s04": 550.0,
-        "s02s05": 1000.0,
-        "s03s00": 7.0,
-        "s03s01": 11.0,
-        "s03s02": 35.0,
-        "s03s03": 100.0,
-        "s04s00": 12.0,
-        "s04s01": 24.0,
-        "s04s02": 70.0,
-        "s05s00": 23.0,
-        "s05s01": 50.0,
-        "s05s02": 150.0
-      },
-      "htft": {
-        "hh": 1.76,
-        "hd": 27.0,
-        "ha": 90.0,
-        "dh": 3.1,
-        "dd": 5.75,
-        "da": 28.0,
-        "ah": 30.0,
-        "ad": 27.0,
-        "aa": 28.0
-      }
-    },
-    {
-      "id": 2,
+      "matchId": 2042155,
+      "matchNo": "周五001",
       "league": "澳超",
       "time": "2026-10-23 17:00:00",
       "date": "2026-10-23",
@@ -130,10 +66,20 @@
         "ah": 25.0,
         "ad": 14.0,
         "aa": 5.25
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 3,
+      "id": 2,
+      "matchId": 2042156,
+      "matchNo": "周五002",
       "league": "德乙",
       "time": "2026-10-24 00:30:00",
       "date": "2026-10-24",
@@ -196,10 +142,20 @@
         "ah": 22.0,
         "ad": 13.0,
         "aa": 3.3
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 4,
+      "id": 3,
+      "matchId": 2042157,
+      "matchNo": "周五003",
       "league": "瑞超",
       "time": "2026-10-24 01:00:00",
       "date": "2026-10-24",
@@ -262,10 +218,20 @@
         "ah": 23.0,
         "ad": 14.0,
         "aa": 5.25
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 5,
+      "id": 4,
+      "matchId": 2042158,
+      "matchNo": "周五004",
       "league": "荷甲",
       "time": "2026-10-24 02:00:00",
       "date": "2026-10-24",
@@ -328,10 +294,20 @@
         "ah": 20.0,
         "ad": 17.0,
         "aa": 8.8
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 6,
+      "id": 5,
+      "matchId": 2042159,
+      "matchNo": "周五005",
       "league": "荷乙",
       "time": "2026-10-24 02:00:00",
       "date": "2026-10-24",
@@ -394,10 +370,20 @@
         "ah": 19.0,
         "ad": 13.0,
         "aa": 3.95
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 7,
+      "id": 6,
+      "matchId": 2042160,
+      "matchNo": "周五006",
       "league": "德甲",
       "time": "2026-10-24 02:30:00",
       "date": "2026-10-24",
@@ -460,10 +446,20 @@
         "ah": 17.0,
         "ad": 17.0,
         "aa": 10.5
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 8,
+      "id": 7,
+      "matchId": 2042161,
+      "matchNo": "周五007",
       "league": "意甲",
       "time": "2026-10-24 02:45:00",
       "date": "2026-10-24",
@@ -526,10 +522,20 @@
         "ah": 22.0,
         "ad": 14.0,
         "aa": 5.2
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 9,
+      "id": 8,
+      "matchId": 2042162,
+      "matchNo": "周五008",
       "league": "法甲",
       "time": "2026-10-24 02:45:00",
       "date": "2026-10-24",
@@ -592,10 +598,20 @@
         "ah": 22.0,
         "ad": 14.0,
         "aa": 4.5
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 10,
+      "id": 9,
+      "matchId": 2042163,
+      "matchNo": "周五009",
       "league": "英超",
       "time": "2026-10-24 03:00:00",
       "date": "2026-10-24",
@@ -658,10 +674,20 @@
         "ah": 28.0,
         "ad": 13.5,
         "aa": 3.55
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 11,
+      "id": 10,
+      "matchId": 2042164,
+      "matchNo": "周五010",
       "league": "英冠",
       "time": "2026-10-24 03:00:00",
       "date": "2026-10-24",
@@ -724,10 +750,20 @@
         "ah": 38.0,
         "ad": 17.0,
         "aa": 2.0
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 12,
+      "id": 11,
+      "matchId": 2042165,
+      "matchNo": "周五011",
       "league": "西甲",
       "time": "2026-10-24 03:00:00",
       "date": "2026-10-24",
@@ -790,10 +826,20 @@
         "ah": 22.0,
         "ad": 16.0,
         "aa": 8.0
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
     },
     {
-      "id": 13,
+      "id": 12,
+      "matchId": 2042166,
+      "matchNo": "周五012",
       "league": "葡超",
       "time": "2026-10-24 03:45:00",
       "date": "2026-10-24",
@@ -856,10 +902,351 @@
         "ah": 25.0,
         "ad": 18.0,
         "aa": 8.75
-      }
+      },
+      "hasOdds": true,
+      "status": "upcoming",
+      "minute": 0,
+      "phase": "赛前",
+      "homeScore": null,
+      "awayScore": null,
+      "htHomeScore": null,
+      "htAwayScore": null
+    },
+    {
+      "id": 13,
+      "matchId": 2042123,
+      "matchNo": "",
+      "league": "欧罗巴",
+      "time": "2026-10-23 00:45",
+      "date": "2026-10-23",
+      "home": {
+        "name": "克里特",
+        "rank": ""
+      },
+      "away": {
+        "name": "勒沃库森",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 95,
+      "phase": "比赛结束",
+      "homeScore": 0,
+      "awayScore": 2,
+      "htHomeScore": 0,
+      "htAwayScore": 2
+    },
+    {
+      "id": 14,
+      "matchId": 2042124,
+      "matchNo": "",
+      "league": "欧罗巴",
+      "time": "2026-10-23 03:00",
+      "date": "2026-10-23",
+      "home": {
+        "name": "伯恩茅斯",
+        "rank": ""
+      },
+      "away": {
+        "name": "AC米兰",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 100,
+      "phase": "比赛结束",
+      "homeScore": 3,
+      "awayScore": 0,
+      "htHomeScore": 2,
+      "htAwayScore": 0
+    },
+    {
+      "id": 15,
+      "matchId": 2042125,
+      "matchNo": "",
+      "league": "欧罗巴",
+      "time": "2026-10-23 03:00",
+      "date": "2026-10-23",
+      "home": {
+        "name": "凯尔特人",
+        "rank": ""
+      },
+      "away": {
+        "name": "塞尔塔",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 95,
+      "phase": "比赛结束",
+      "homeScore": 1,
+      "awayScore": 2,
+      "htHomeScore": 0,
+      "htAwayScore": 0
+    },
+    {
+      "id": 16,
+      "matchId": 2042126,
+      "matchNo": "",
+      "league": "欧罗巴",
+      "time": "2026-10-23 03:00",
+      "date": "2026-10-23",
+      "home": {
+        "name": "贝西克塔",
+        "rank": ""
+      },
+      "away": {
+        "name": "水晶宫",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 100,
+      "phase": "比赛结束",
+      "homeScore": 2,
+      "awayScore": 2,
+      "htHomeScore": 1,
+      "htAwayScore": 0
+    },
+    {
+      "id": 17,
+      "matchId": 2042127,
+      "matchNo": "",
+      "league": "欧罗巴",
+      "time": "2026-10-23 03:00",
+      "date": "2026-10-23",
+      "home": {
+        "name": "霍芬海姆",
+        "rank": ""
+      },
+      "away": {
+        "name": "里昂",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 102,
+      "phase": "比赛结束",
+      "homeScore": 3,
+      "awayScore": 0,
+      "htHomeScore": 1,
+      "htAwayScore": 0
+    },
+    {
+      "id": 18,
+      "matchId": 2042128,
+      "matchNo": "",
+      "league": "欧罗巴",
+      "time": "2026-10-23 03:00",
+      "date": "2026-10-23",
+      "home": {
+        "name": "利勒斯特",
+        "rank": ""
+      },
+      "away": {
+        "name": "皇家社会",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 94,
+      "phase": "比赛结束",
+      "homeScore": 0,
+      "awayScore": 6,
+      "htHomeScore": 0,
+      "htAwayScore": 3
+    },
+    {
+      "id": 19,
+      "matchId": 2042130,
+      "matchNo": "",
+      "league": "欧协联",
+      "time": "2026-10-23 03:00",
+      "date": "2026-10-23",
+      "home": {
+        "name": "阿贾克斯",
+        "rank": ""
+      },
+      "away": {
+        "name": "亚特兰大",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 96,
+      "phase": "比赛结束",
+      "homeScore": 2,
+      "awayScore": 0,
+      "htHomeScore": 0,
+      "htAwayScore": 0
+    },
+    {
+      "id": 20,
+      "matchId": 2042131,
+      "matchNo": "",
+      "league": "欧协联",
+      "time": "2026-10-23 03:00",
+      "date": "2026-10-23",
+      "home": {
+        "name": "摩纳哥",
+        "rank": ""
+      },
+      "away": {
+        "name": "弗赖堡",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "finished",
+      "minute": 99,
+      "phase": "比赛结束",
+      "homeScore": 3,
+      "awayScore": 0,
+      "htHomeScore": 1,
+      "htAwayScore": 0
+    },
+    {
+      "id": 21,
+      "matchId": 2042129,
+      "matchNo": "",
+      "league": "解放者杯",
+      "time": "2026-10-23 08:30",
+      "date": "2026-10-23",
+      "home": {
+        "name": "弗拉门戈",
+        "rank": ""
+      },
+      "away": {
+        "name": "拉普大学",
+        "rank": ""
+      },
+      "odds": {
+        "home": 0,
+        "draw": 0,
+        "away": 0
+      },
+      "handicap": {
+        "line": "",
+        "home": 0,
+        "away": 0,
+        "draw": 0
+      },
+      "crs": {},
+      "htft": {},
+      "hasOdds": false,
+      "status": "live",
+      "minute": 18,
+      "phase": "当前赛季",
+      "homeScore": 0,
+      "awayScore": 0,
+      "htHomeScore": null,
+      "htAwayScore": null
     }
   ],
-  "updated": "2026-10-22 20:39 UTC",
+  "updated": "2026-10-23 00:50 UTC",
   "sources": [
     "中国竞彩网"
   ]

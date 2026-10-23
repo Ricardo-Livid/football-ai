@@ -1,14 +1,14 @@
-name: Fetch Football Data
+name: Refresh Live Data
 on:
   schedule:
-    - cron: '0 8,12,16,20 * * *'  # UTC 8/12/16/20 = 北京时间 16/20/00/04
+    - cron: '*/10 * * * *'   # 每 10 分钟轻量刷新实时比分/状态/赔率（GitHub 调度可能延迟，非严格准点）
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  fetch:
+  refresh:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,16 +18,16 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Fetch and update data
+      - name: Refresh live matches (lightweight)
         run: |
           mkdir -p data
-          python3 scripts/fetch_data.py
-          echo "Data fetch completed"
+          python3 scripts/fetch_data.py --refresh
+          echo "Live refresh completed"
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --cached --quiet || git commit -m "chore: update data $(date +%Y-%m-%d_%H:%M)"
+          git diff --cached --quiet || git commit -m "chore: refresh live data $(date +%Y-%m-%d_%H:%M)"
           git push
